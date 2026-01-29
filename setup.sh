@@ -136,8 +136,13 @@ fi
 # Terminal por defecto (Kitty)
 # ===============================
 if command -v xfconf-query &>/dev/null; then
-  xfconf-query -c xfce4-session -p /general/DefaultTerminal -s kitty
-  echo -e "${GREEN}[+] Kitty establecido como terminal por defecto${END}"
+  xfconf-query -c xfce4-session \
+    -p /general/DefaultTerminal \
+    -t string \
+    -s kitty \
+    --create
+
+  echo -e "${GREEN}[+] Kitty establecido como terminal por defecto (XFCE)${END}"
 fi
 
 
