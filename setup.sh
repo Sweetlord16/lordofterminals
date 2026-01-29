@@ -135,24 +135,10 @@ fi
 # ===============================
 # Terminal por defecto (Kitty)
 # ===============================
-# 1. Verificar si kitty está instalado
-if ! command -v kitty &> /dev/null; then
-    echo "Kitty no está instalado. Instalando..."
-    sudo apt update
-    sudo apt install -y kitty
-fi
 
-# 2. Configurar kitty como x-terminal-emulator predeterminado
-sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 50
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
+sudo rm /usr/bin/qterminal      
+sudo ln -s /usr/bin/kitty /usr/bin/qterminal
 
-# 3. Actualizar launchers del menú
-# Buscar todos los .desktop de terminal y reemplazar el comando
-for f in /usr/share/applications/*terminal*.desktop; do
-    sudo sed -i 's|Exec=.*|Exec=kitty|' "$f"
-done
-
-echo "Kitty configurado como terminal predeterminado. ¡Listo!"
 
 
 # ===============================
