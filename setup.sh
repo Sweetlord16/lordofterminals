@@ -179,7 +179,27 @@ fi
 # ===============================
 # Final
 # ===============================
-echo -e "${GREEN}"
-echo "[+] Dotfiles instalados correctamente"
-echo "[+] Reinicia la terminal o el sistema"
-echo "${END}"
+
+dir="$BASE_DIR"  # Aquí puedes definir qué carpeta borrar, si es tu directorio temporal de setup
+
+rm -rfv "$dir"
+echo -e "\n${GREEN}[+] Done\n${END}"
+sleep 1.5
+
+echo -e "\n${GREEN}[+] Environment configured :D${END}"
+sleep 1.5
+
+while true; do
+    echo -en "\n${BLUE}[?] It's necessary to restart the system. Do you want to restart the system now? ([y]/n) ${END}"
+    read -r
+    REPLY=${REPLY:-"y"}
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo -e "\n\n${GREEN}[+] Restarting the system...\n${END}"
+        sleep 1
+        sudo reboot
+    elif [[ $REPLY =~ ^[Nn]$ ]]; then
+        exit 0
+    else
+        echo -e "\n${RED}[!] Invalid response, please try again\n${END}"
+    fi
+done
