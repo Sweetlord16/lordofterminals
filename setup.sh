@@ -53,25 +53,32 @@ banner
 echo -e "${BLUE}[*] Configurando Kali para $USER_NAME${END}"
 
 
-# ---------- Wallpapers ----------
-# Crear carpeta ~/Wallpapers si no existe
+# Carpeta de destino en el home
 WALLPAPER_DIR="$HOME/Wallpapers"
 mkdir -p "$WALLPAPER_DIR"
 
-# Copiar todos los wallpapers del repo/dotfiles
-cp -rv "$dir/wallpapers/"* "$WALLPAPER_DIR/"
+# Carpeta de origen dentro del repo
+SOURCE_WALLPAPERS="$dir/wallpapers"
 
-# Buscar el archivo "The Oni.jpg" dentro de la carpeta
+# Copiar wallpapers si existen
+if [[ -d "$SOURCE_WALLPAPERS" ]]; then
+    cp -rv "$SOURCE_WALLPAPERS/"* "$WALLPAPER_DIR/"
+    echo -e "${greenColour}[+] Wallpapers copiados a $WALLPAPER_DIR${endColour}"
+else
+    echo -e "${redColour}[-] No se encontró la carpeta wallpapers en $SOURCE_WALLPAPERS${endColour}"
+fi
+
+# Buscar y aplicar "The Oni.jpg"
 WALLPAPER_FILE=$(find "$WALLPAPER_DIR" -type f -iname "The Oni.jpg" | head -n 1)
 
-# Aplicar con wal
 if [[ -f "$WALLPAPER_FILE" ]]; then
     wal -nqi "$WALLPAPER_FILE"
     sudo wal -nqi "$WALLPAPER_FILE"
-    echo -e "\n${greenColour}[+] Wallpaper aplicado: $WALLPAPER_FILE${endColour}"
+    echo -e "${greenColour}[+] Wallpaper aplicado: $WALLPAPER_FILE${endColour}"
 else
-    echo -e "\n${redColour}[-] No se encontró The Oni.jpg en $WALLPAPER_DIR${endColour}"
+    echo -e "${redColour}[-] No se encontró The Oni.jpg en $WALLPAPER_DIR${endColour}"
 fi
+
 
 
 # ===============================
