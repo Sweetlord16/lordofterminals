@@ -90,8 +90,7 @@ mkdir -p "$WALL_DIR"
 cp -rv "$dir/wallpapers/"* "$WALL_DIR"
 
 # Aplicar un wallpaper específico
-wal -nqi "$WALL_DIR/The Oni.jpg"
-sudo wal -nqi "$WALL_DIR/The Oni.jpg"
+feh --bg-scale "$WALL_DIR/The Oni.jpg"
 
 echo -e "\n${greenColour}[+] Done\n${endColour}"
 sleep 1.5
