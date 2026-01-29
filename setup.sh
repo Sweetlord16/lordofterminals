@@ -78,24 +78,21 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 echo -e "\n${BLUE}[*] Configurando wallpapers...${END}"
 sleep 2
 
-
-
-# Ruta del repo y del directorio de wallpapers
 dir="$HOME/lordofterminals"
 WALL_DIR="$HOME/Wallpapers"
 
-# Crear el directorio si no existe
 mkdir -p "$WALL_DIR"
-
-# Copiar todos los wallpapers del repo
 cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
-xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "$HOME/Wallpapers/The Oni.jpg"
-xfdesktop --reload
+xfconf-query -c xfce4-desktop \
+-p /backdrop/screen0/monitorVirtual1/workspace0/last-image \
+-s "$WALL_DIR/The Oni.jpg"
 
+xfdesktop --reload
 
 echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
 sleep 1.5
+
 
 
 # ===============================
