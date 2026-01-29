@@ -89,11 +89,20 @@ mkdir -p "$WALL_DIR"
 # Copiar todos los wallpapers del repo
 cp -rv "$dir/wallpapers/"* "$WALL_DIR"
 
-# Aplicar un wallpaper específico
-feh --bg-scale "$WALL_DIR/The Oni.jpg"
+# Seleccionar el wallpaper específico
+WALL_FILE="$WALL_DIR/The Oni.jpg"
+
+# Detectar todos los monitores de XFCE y aplicar el wallpaper
+MONITORS=$(xfconf-query -c xfce4-desktop -l | grep last-image | grep monitor | awk -F/ '{print $5}' | sort -u)
+for MON in $MONITORS; do
+    xfconf-query -c xfce4-desktop \
+        -p "/backdrop/screen0/$MON/workspace0/last-image" \
+        -s "$WALL_FILE"
+done
 
 echo -e "\n${greenColour}[+] Done\n${endColour}"
 sleep 1.5
+
 
 # ===============================
 # ZSH + Oh My Zsh
