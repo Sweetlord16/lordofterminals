@@ -135,15 +135,13 @@ fi
 # ===============================
 # Terminal por defecto (Kitty)
 # ===============================
-if command -v xfconf-query &>/dev/null; then
-  xfconf-query -c xfce4-session \
-    -p /general/DefaultTerminal \
-    -t string \
-    -s kitty \
-    --create
-
-  echo -e "${GREEN}[+] Kitty establecido como terminal por defecto (XFCE)${END}"
+if command -v exo-preferred-applications &>/dev/null; then
+  exo-preferred-applications --set TerminalEmulator=kitty
+  echo -e "${GREEN}[+] Kitty establecido como terminal por defecto (EXO / XFCE)${END}"
+else
+  echo -e "${RED}[-] exo-preferred-applications no disponible${END}"
 fi
+
 
 
 # ===============================
