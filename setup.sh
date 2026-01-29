@@ -54,16 +54,25 @@ echo -e "${BLUE}[*] Configurando Kali para $USER_NAME${END}"
 
 
 # ---------- Wallpapers ----------
-set_wallpaper() {
-    WALLPAPER="$CONFIG_DIR/wallpaper/The\ Oni.jpg"
+# Crear carpeta ~/Wallpapers si no existe
+WALLPAPER_DIR="$HOME/Wallpapers"
+mkdir -p "$WALLPAPER_DIR"
 
-	if [[ -f "$WALLPAPER" ]]; then
-		feh --bg-scale "$WALLPAPER"
-		echo -e "${greenColour}[+] Fondo de pantalla aplicado${endColour}"
-	else
-		echo -e "${redColour}[-] No se encontró el fondo de pantalla${endColour}"
-	fi
-}
+# Copiar todos los wallpapers del repo/dotfiles
+cp -rv "$dir/wallpapers/"* "$WALLPAPER_DIR/"
+
+# Buscar el archivo "The Oni.jpg" dentro de la carpeta
+WALLPAPER_FILE=$(find "$WALLPAPER_DIR" -type f -iname "The Oni.jpg" | head -n 1)
+
+# Aplicar con wal
+if [[ -f "$WALLPAPER_FILE" ]]; then
+    wal -nqi "$WALLPAPER_FILE"
+    sudo wal -nqi "$WALLPAPER_FILE"
+    echo -e "\n${greenColour}[+] Wallpaper aplicado: $WALLPAPER_FILE${endColour}"
+else
+    echo -e "\n${redColour}[-] No se encontró The Oni.jpg en $WALLPAPER_DIR${endColour}"
+fi
+
 
 # ===============================
 # Paquetes esenciales
@@ -86,7 +95,6 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 
 
 
-set_wallpaper
 
 # ===============================
 # ZSH + Oh My Zsh
