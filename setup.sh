@@ -53,18 +53,6 @@ banner
 echo -e "${BLUE}[*] Configurando Kali para $USER_NAME${END}"
 
 
-# ---------- Wallpapers ----------
-set_wallpaper() {
-    WALLPAPER="$CONFIG_DIR/wallpaper/The\ Oni.jpg"
-
-	if [[ -f "$WALLPAPER" ]]; then
-		feh --bg-scale "$WALLPAPER"
-		echo -e "${greenColour}[+] Fondo de pantalla aplicado${endColour}"
-	else
-		echo -e "${redColour}[-] No se encontró el fondo de pantalla${endColour}"
-	fi
-}
-
 # ===============================
 # Paquetes esenciales
 # ===============================
@@ -84,9 +72,29 @@ sudo apt install -y \
 
 echo -e "${GREEN}[+] Paquetes instalados${END}"
 
+# ===============================
+# Wallpapers piolotes
+# ===============================
 
+echo -e "\n${purpleColour}[*] Configuring wallpaper...\n${endColour}"
+sleep 2
 
-set_wallpaper
+# Ruta del repo y del directorio de wallpapers
+dir="$HOME/lordofterminals"        # aquí apuntamos al repo clonado
+WALL_DIR="$HOME/Wallpapers"
+
+# Crear el directorio si no existe
+mkdir -p "$WALL_DIR"
+
+# Copiar todos los wallpapers del repo
+cp -rv "$dir/wallpapers/"* "$WALL_DIR"
+
+# Aplicar un wallpaper específico
+wal -nqi "$WALL_DIR/The Oni.jpg"
+sudo wal -nqi "$WALL_DIR/The Oni.jpg"
+
+echo -e "\n${greenColour}[+] Done\n${endColour}"
+sleep 1.5
 
 # ===============================
 # ZSH + Oh My Zsh
@@ -138,6 +146,7 @@ fi
 
 sudo rm /usr/bin/qterminal      
 sudo ln -s /usr/bin/kitty /usr/bin/qterminal
+
 
 
 
