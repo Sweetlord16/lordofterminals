@@ -55,7 +55,7 @@ echo -e "${BLUE}[*] Configurando Kali para $USER_NAME${END}"
 
 # ---------- Wallpapers ----------
 set_wallpaper() {
-	WALLPAPER="$CONFIG_DIR/wallpaper/'The Oni'.jpg"
+    WALLPAPER="$CONFIG_DIR/wallpaper/The\ Oni.jpg"
 
 	if [[ -f "$WALLPAPER" ]]; then
 		feh --bg-scale "$WALLPAPER"
@@ -130,6 +130,16 @@ echo -e "${GREEN}[+] Dotfiles aplicados${END}"
 if ! grep -q "xterm-kitty" ~/.zshrc; then
   echo "export TERM=xterm-kitty" >> ~/.zshrc
 fi
+
+
+# ===============================
+# Terminal por defecto (Kitty)
+# ===============================
+if command -v xfconf-query &>/dev/null; then
+  xfconf-query -c xfce4-session -p /general/DefaultTerminal -s kitty
+  echo -e "${GREEN}[+] Kitty establecido como terminal por defecto${END}"
+fi
+
 
 # ===============================
 #  Shell por defecto
