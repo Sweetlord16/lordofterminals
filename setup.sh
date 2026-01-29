@@ -75,37 +75,24 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 # ===============================
 # Wallpapers piolotes
 # ===============================
-
 echo -e "\n${purpleColour}[*] Configuring wallpaper...\n${endColour}"
 sleep 2
 
-# Ruta del repo y del directorio de wallpapers
-dir="$HOME/lordofterminals"        # aquí apuntamos al repo clonado
+# Directorio de wallpapers
 WALL_DIR="$HOME/Wallpapers"
 
-# Crear el directorio si no existe
+# Crear el directorio si no existe y copiar wallpapers
 mkdir -p "$WALL_DIR"
-
-# Copiar todos los wallpapers del repo
 cp -rv "$dir/wallpapers/"* "$WALL_DIR"
 
-# Seleccionar el wallpaper específico
-WALL_FILE="$WALL_DIR/The Oni.jpg"
+# Archivo de wallpaper específico
+WALL_FILE="$WALL_DIR/Cyberpunk.jpg"
 
-# Detectar monitores activos y aplicar wallpaper
-MONITORS=$(xfconf-query -c xfce4-desktop -l | grep last-image | grep monitor | awk -F/ '{print $5}' | sort -u)
+# Aplicar wal
+wal -nqi "$WALL_FILE"
 
-# Si no se detecta ningún monitor (propiedad no creada aún), usar monitor0
-if [ -z "$MONITORS" ]; then
-    MONITORS="monitor0"
-fi
-
-for MON in $MONITORS; do
-    # Crear la propiedad si no existe y aplicar el wallpaper
-    xfconf-query -c xfce4-desktop \
-        -p "/backdrop/screen0/$MON/workspace0/last-image" \
-        --create -t string -s "$WALL_FILE"
-done
+# Opcional: aplicar con sudo si quieres cambiar colores para root (no siempre necesario)
+sudo wal -nqi "$WALL_FILE"
 
 echo -e "\n${greenColour}[+] Done\n${endColour}"
 sleep 1.5
