@@ -78,11 +78,7 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 echo -e "\n${BLUE}[*] Configurando wallpapers...${END}"
 sleep 2
 
-# Instalar pywal si no está
-if ! command -v wal &> /dev/null; then
-    echo -e "${BLUE}[*] Instalando pywal...${END}"
-    sudo apt install -y pywal
-fi
+
 
 # Ruta del repo y del directorio de wallpapers
 dir="$HOME/lordofterminals"
