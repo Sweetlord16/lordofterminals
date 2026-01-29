@@ -78,20 +78,19 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 echo -e "\n${purpleColour}[*] Configuring wallpaper...\n${endColour}"
 sleep 2
 
-# Directorio de wallpapers
+# Ruta del repo y del directorio de wallpapers
+dir="$HOME/lordofterminals"
 WALL_DIR="$HOME/Wallpapers"
 
-# Crear el directorio si no existe y copiar wallpapers
+# Crear el directorio si no existe
 mkdir -p "$WALL_DIR"
-cp -rv "$dir/wallpapers/"* "$WALL_DIR"
 
-# Archivo de wallpaper específico
-WALL_FILE="$WALL_DIR/Cyberpunk.jpg"
+# Copiar todos los wallpapers del repo (comillas para espacios)
+cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
 # Aplicar wal
+WALL_FILE="$WALL_DIR/The Oni.jpg"
 wal -nqi "$WALL_FILE"
-
-# Opcional: aplicar con sudo si quieres cambiar colores para root (no siempre necesario)
 sudo wal -nqi "$WALL_FILE"
 
 echo -e "\n${greenColour}[+] Done\n${endColour}"
