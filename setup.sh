@@ -92,12 +92,19 @@ cp -rv "$dir/wallpapers/"* "$WALL_DIR"
 # Seleccionar el wallpaper específico
 WALL_FILE="$WALL_DIR/The Oni.jpg"
 
-# Detectar todos los monitores de XFCE y aplicar el wallpaper
+# Detectar monitores activos y aplicar wallpaper
 MONITORS=$(xfconf-query -c xfce4-desktop -l | grep last-image | grep monitor | awk -F/ '{print $5}' | sort -u)
+
+# Si no se detecta ningún monitor (propiedad no creada aún), usar monitor0
+if [ -z "$MONITORS" ]; then
+    MONITORS="monitor0"
+fi
+
 for MON in $MONITORS; do
+    # Crear la propiedad si no existe y aplicar el wallpaper
     xfconf-query -c xfce4-desktop \
         -p "/backdrop/screen0/$MON/workspace0/last-image" \
-        -s "$WALL_FILE"
+        --create -t string -s "$WALL_FILE"
 done
 
 echo -e "\n${greenColour}[+] Done\n${endColour}"
