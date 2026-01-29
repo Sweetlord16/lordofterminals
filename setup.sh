@@ -94,14 +94,9 @@ mkdir -p "$WALL_DIR"
 # Copiar todos los wallpapers del repo
 cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
-# Aplicar wal
-WALL_FILE="$WALL_DIR/The Oni.jpg"
-if [[ -f "$WALL_FILE" ]]; then
-    wal -nqi "$WALL_FILE"
-    sudo wal -nqi "$WALL_FILE"
-else
-    echo -e "${RED}[!] No se encontró el wallpaper $WALL_FILE${END}"
-fi
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s "$HOME/Wallpapers/The Oni.jpg"
+xfdesktop --reload
+
 
 echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
 sleep 1.5
