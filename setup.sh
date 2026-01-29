@@ -84,14 +84,18 @@ WALL_DIR="$HOME/Wallpapers"
 mkdir -p "$WALL_DIR"
 cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
+# Crear / setear wallpaper (XFCE Kali)
 xfconf-query -c xfce4-desktop \
+--create \
 -p /backdrop/screen0/monitorVirtual1/workspace0/last-image \
+-t string \
 -s "$WALL_DIR/The Oni.jpg"
 
 xfdesktop --reload
 
 echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
 sleep 1.5
+
 
 
 
