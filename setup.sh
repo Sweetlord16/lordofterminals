@@ -135,43 +135,6 @@ fi
 # ===============================
 # Terminal por defecto (Kitty)
 # ===============================
-# ===============================
-# Terminal por defecto (Kitty - XFCE)
-# ===============================
-echo -e "${BLUE}[*] Configurando Kitty como terminal por defecto (XFCE)...${END}"
-
-# Asegurar exo-utils (XFCE)
-if ! command -v exo-preferred-applications &>/dev/null; then
-    echo -e "${BLUE}[*] Instalando exo-utils...${END}"
-    sudo apt install -y exo-utils
-fi
-
-# Fallback global (x-terminal-emulator)
-if command -v kitty &>/dev/null; then
-    sudo update-alternatives --install \
-        /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 50
-    sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
-    echo -e "${GREEN}[+] Kitty registrado como x-terminal-emulator${END}"
-else
-    echo -e "${RED}[-] Kitty no está instalado${END}"
-fi
-
-# XFCE real (equivalente exacto a la GUI)
-if command -v exo-preferred-applications &>/dev/null; then
-    exo-preferred-applications --set TerminalEmulator=kitty
-    echo -e "${GREEN}[+] Kitty establecido como terminal por defecto en XFCE${END}"
-else
-    echo -e "${RED}[-] exo-preferred-applications no disponible${END}"
-fi
-
-# Variables de entorno (WMs / scripts)
-for rc in ~/.bashrc ~/.zshrc; do
-    if ! grep -q "export TERMINAL=kitty" "$rc"; then
-        echo "export TERMINAL=kitty" >> "$rc"
-    fi
-done
-
-echo -e "${GREEN}[+] Terminal por defecto configurado correctamente${END}"
 
 
 
