@@ -75,8 +75,16 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 # ===============================
 # Wallpapers piolotes
 # ===============================
-echo -e "\n${purpleColour}[*] Configuring wallpaper...\n${endColour}"
+echo -e "\n${BLUE}[*] Configurando wallpapers...${END}"
 sleep 2
+
+# Instalar pywal si no está
+if ! command -v wal &> /dev/null; then
+    echo -e "${BLUE}[*] Instalando pywal...${END}"
+    sudo apt install -y python3-pip
+    pip3 install --user pywal
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 # Ruta del repo y del directorio de wallpapers
 dir="$HOME/lordofterminals"
@@ -90,10 +98,15 @@ cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
 # Aplicar wal
 WALL_FILE="$WALL_DIR/The Oni.jpg"
-wal -nqi "$WALL_FILE"
-sudo wal -nqi "$WALL_FILE"
 
-echo -e "\n${greenColour}[+] Done\n${endColour}"
+if [[ -f "$WALL_FILE" ]]; then
+    wal -nqi "$WALL_FILE"
+    sudo wal -nqi "$WALL_FILE"  # opcional, solo si quieres colores para root
+else
+    echo -e "${RED}[!] No se encontró el wallpaper $WALL_FILE${END}"
+fi
+
+echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
 sleep 1.5
 
 
