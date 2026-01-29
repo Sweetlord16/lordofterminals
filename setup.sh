@@ -53,33 +53,17 @@ banner
 echo -e "${BLUE}[*] Configurando Kali para $USER_NAME${END}"
 
 
-# Carpeta de destino en el home
-WALLPAPER_DIR="$HOME/Wallpapers"
-mkdir -p "$WALLPAPER_DIR"
+# ---------- Wallpapers ----------
+set_wallpaper() {
+    WALLPAPER="$CONFIG_DIR/wallpaper/The\ Oni.jpg"
 
-# Carpeta de origen dentro del repo
-SOURCE_WALLPAPERS="$dir/wallpapers"
-
-# Copiar wallpapers si existen
-if [[ -d "$SOURCE_WALLPAPERS" ]]; then
-    cp -rv "$SOURCE_WALLPAPERS/"* "$WALLPAPER_DIR/"
-    echo -e "${greenColour}[+] Wallpapers copiados a $WALLPAPER_DIR${endColour}"
-else
-    echo -e "${redColour}[-] No se encontró la carpeta wallpapers en $SOURCE_WALLPAPERS${endColour}"
-fi
-
-# Buscar y aplicar "The Oni.jpg"
-WALLPAPER_FILE=$(find "$WALLPAPER_DIR" -type f -iname "The Oni.jpg" | head -n 1)
-
-if [[ -f "$WALLPAPER_FILE" ]]; then
-    wal -nqi "$WALLPAPER_FILE"
-    sudo wal -nqi "$WALLPAPER_FILE"
-    echo -e "${greenColour}[+] Wallpaper aplicado: $WALLPAPER_FILE${endColour}"
-else
-    echo -e "${redColour}[-] No se encontró The Oni.jpg en $WALLPAPER_DIR${endColour}"
-fi
-
-
+	if [[ -f "$WALLPAPER" ]]; then
+		feh --bg-scale "$WALLPAPER"
+		echo -e "${greenColour}[+] Fondo de pantalla aplicado${endColour}"
+	else
+		echo -e "${redColour}[-] No se encontró el fondo de pantalla${endColour}"
+	fi
+}
 
 # ===============================
 # Paquetes esenciales
@@ -102,6 +86,7 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 
 
 
+set_wallpaper
 
 # ===============================
 # ZSH + Oh My Zsh
@@ -194,27 +179,7 @@ fi
 # ===============================
 # Final
 # ===============================
-
-dir="$BASE_DIR"  # Aquí puedes definir qué carpeta borrar, si es tu directorio temporal de setup
-
-rm -rfv "$dir"
-echo -e "\n${GREEN}[+] Done\n${END}"
-sleep 1.5
-
-echo -e "\n${GREEN}[+] Environment configured :D${END}"
-sleep 1.5
-
-while true; do
-    echo -en "\n${BLUE}[?] It's necessary to restart the system. Do you want to restart the system now? ([y]/n) ${END}"
-    read -r
-    REPLY=${REPLY:-"y"}
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo -e "\n\n${GREEN}[+] Restarting the system...\n${END}"
-        sleep 1
-        sudo reboot
-    elif [[ $REPLY =~ ^[Nn]$ ]]; then
-        exit 0
-    else
-        echo -e "\n${RED}[!] Invalid response, please try again\n${END}"
-    fi
-done
+echo -e "${GREEN}"
+echo "[+] Dotfiles instalados correctamente"
+echo "[+] Reinicia la terminal o el sistema"
+echo "${END}"
