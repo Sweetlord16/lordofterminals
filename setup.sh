@@ -81,9 +81,7 @@ sleep 2
 # Instalar pywal si no está
 if ! command -v wal &> /dev/null; then
     echo -e "${BLUE}[*] Instalando pywal...${END}"
-    sudo apt install -y python3-pip
-    pip3 install --user pywal
-    export PATH="$HOME/.local/bin:$PATH"
+    sudo apt install -y pywal
 fi
 
 # Ruta del repo y del directorio de wallpapers
@@ -93,15 +91,14 @@ WALL_DIR="$HOME/Wallpapers"
 # Crear el directorio si no existe
 mkdir -p "$WALL_DIR"
 
-# Copiar todos los wallpapers del repo (comillas para espacios)
+# Copiar todos los wallpapers del repo
 cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
 # Aplicar wal
 WALL_FILE="$WALL_DIR/The Oni.jpg"
-
 if [[ -f "$WALL_FILE" ]]; then
     wal -nqi "$WALL_FILE"
-    sudo wal -nqi "$WALL_FILE"  # opcional, solo si quieres colores para root
+    sudo wal -nqi "$WALL_FILE"
 else
     echo -e "${RED}[!] No se encontró el wallpaper $WALL_FILE${END}"
 fi
