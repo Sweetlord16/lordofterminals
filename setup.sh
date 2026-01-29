@@ -155,16 +155,17 @@ if command -v gsettings &>/dev/null && \
     echo -e "${GREEN}[+] Kitty establecido como terminal por defecto en GNOME${END}"
 fi
 
-# 3. XFCE / EXO (equivalente exacto a la GUI)
+# 3. XFCE / EXO (equivalente real a la GUI)
 if command -v xfconf-query &>/dev/null; then
     xfconf-query -c exo-preferred-applications \
       -p /exo-preferred-applications/TerminalEmulator \
-      -s kitty
+      --create -t string -s kitty
 
     echo -e "${GREEN}[+] Kitty establecido como terminal por defecto en XFCE (EXO)${END}"
 else
     echo -e "${RED}[-] xfconf-query no disponible, omitiendo XFCE${END}"
 fi
+
 
 # 4. Variables de entorno (WMs / scripts)
 for rc in ~/.bashrc ~/.zshrc; do
