@@ -137,34 +137,38 @@ fi
 # ===============================
 echo -e "${BLUE}[*] Configurando terminal por defecto...${END}"
 
-# Registrar kitty en x-terminal-emulator y seleccionarlo
+# 1. Global (x-terminal-emulator)
 if command -v kitty &>/dev/null; then
     sudo update-alternatives --install \
       /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 50
-
     sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
     echo -e "${GREEN}[+] Kitty registrado como x-terminal-emulator${END}"
 else
-    echo -e "${RED}[-] Kitty no está instalado, saltando registro en alternatives${END}"
+    echo -e "${RED}[-] Kitty no está instalado${END}"
 fi
 
-# XFCE: Terminal por defecto
+# 2. GNOME (Ctrl+Alt+T, dock, etc.)
+if command -v gsettings &>/dev/null && \
+   gsettings writable org.gnome.desktop.default-applications.terminal exec &>/dev/null; then
+    gsettings set org.gnome.desktop.default-applications.terminal exec 'kitty'
+    gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
+    echo -e "${GREEN}[+] Kitty establecido como terminal por defecto en GNOME${END}"
+fi
+
+# 3. XFCE (si existe)
 if command -v exo-preferred-applications &>/dev/null; then
     exo-preferred-applications --set TerminalEmulator=kitty
-    echo -e "${GREEN}[+] Kitty establecido como terminal por defecto (EXO / XFCE)${END}"
-else
-    echo -e "${RED}[-] exo-preferred-applications no disponible, omitiendo configuración XFCE${END}"
+    echo -e "${GREEN}[+] Kitty establecido como terminal por defecto en XFCE${END}"
 fi
 
-# Variable de entorno TERMINAL para scripts / WMs
-if ! grep -q "export TERMINAL=kitty" ~/.bashrc; then
-    echo 'export TERMINAL=kitty' >> ~/.bashrc
-    echo -e "${GREEN}[+] Variable de entorno TERMINAL=kitty añadida a ~/.bashrc${END}"
-fi
-if ! grep -q "export TERMINAL=kitty" ~/.zshrc; then
-    echo 'export TERMINAL=kitty' >> ~/.zshrc
-    echo -e "${GREEN}[+] Variable de entorno TERMINAL=kitty añadida a ~/.zshrc${END}"
-fi
+# 4. Variables de entorno (WMs / scripts)
+for rc in ~/.bashrc ~/.zshrc; do
+    if ! grep -q "export TERMINAL=kitty" "$rc"; then
+        echo 'export TERMINAL=kitty' >> "$rc"
+    fi
+done
+
+echo -e "${GREEN}[+] Terminal por defecto configurado correctamente${END}"
 
 
 
