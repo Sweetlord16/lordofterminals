@@ -114,11 +114,11 @@ if [ ! -f "$GREETER_CONF" ]; then
   echo "[greeter]" | sudo tee "$GREETER_CONF" > /dev/null
 fi
 
-if grep -q "^background=" "$GREETER_CONF"; then
-  sudo sed -i "s|^background=.*|background=$LOGIN_BG|" "$GREETER_CONF"
-else
-  sudo sed -i "/^\[greeter\]/a background=$LOGIN_BG" "$GREETER_CONF"
-fi
+# Eliminar cualquier background previo (Kali o custom)
+sudo sed -i '/^background\s*=.*/d' "$GREETER_CONF"
+
+# Añadir background correcto bajo [greeter]
+sudo sed -i "/^\[greeter\]/a background=$LOGIN_BG" "$GREETER_CONF"
 
 
 # ===============================
