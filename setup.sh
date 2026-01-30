@@ -97,6 +97,31 @@ echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
 sleep 1.5
 
 # ===============================
+# Wallpaper login (LightDM)
+# ===============================
+echo -e "\n${BLUE}[*] Configurando wallpaper de login...${END}"
+sleep 1
+
+LOGIN_BG="/usr/share/backgrounds/login.jpg"
+GREETER_CONF="/etc/lightdm/lightdm-gtk-greeter.conf"
+
+# Copiar imagen
+sudo cp "$HOME/Wallpapers/login.jpg" "$LOGIN_BG"
+sudo chmod 644 "$LOGIN_BG"
+
+# Crear config si no existe
+if [ ! -f "$GREETER_CONF" ]; then
+  echo "[greeter]" | sudo tee "$GREETER_CONF" > /dev/null
+fi
+
+if grep -q "^background=" "$GREETER_CONF"; then
+  sudo sed -i "s|^background=.*|background=$LOGIN_BG|" "$GREETER_CONF"
+else
+  sudo sed -i "/^\[greeter\]/a background=$LOGIN_BG" "$GREETER_CONF"
+fi
+
+
+# ===============================
 # cambiar imagen del login (TO DO)
 # ===============================
 
