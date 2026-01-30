@@ -96,8 +96,13 @@ xfdesktop --reload
 echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
 sleep 1.5
 
+# ===============================
+# cambiar imagen del login (TO DO)
+# ===============================
 
+#sudo ln -sf <image_path> /usr/share/desktop-base/kali-theme/login/background
 
+#sleep 1.5
 
 # ===============================
 # ZSH + Oh My Zsh
