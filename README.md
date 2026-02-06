@@ -1,4 +1,5 @@
-# 🧙‍♂️ Lord of Terminals 🧙‍♂️
+<h1 align="center">🧙‍♂️ Lord of Terminals 🧙‍♂️</h1>
+
 
 <p align="center">
   <img src="/assets/gandalf.png" alt="Gandalf wallpaper" title="Gandalf" width="400">
