@@ -1,5 +1,10 @@
 # 🧙‍♂️ Lord of Terminals 🧙‍♂️
 
+<p align="center">
+  <img src="/assets/gandalf.png" alt="Gandalf wallpaper">
+</p>
+
+
 > **Lord of Terminals** is a collection of utilities and configurations to enhance your Kali Linux terminal experience.  
 > It comes with scripts, settings, and wallpapers to customize your shell workspace.
 
