@@ -11,6 +11,10 @@ USER_NAME=$(whoami)
 BASE_DIR=$(pwd)
 CONFIG_DIR="$BASE_DIR/config"
 
+# El famoso  hostname
+
+HOSTNAME="lordoftherings"
+
 # ---------- Colores ----------
 GREEN="\e[1;32m"
 RED="\e[1;31m"
@@ -119,6 +123,22 @@ sudo sed -i '/^background\s*=.*/d' "$GREETER_CONF"
 
 # Añadir background correcto bajo [greeter]
 sudo sed -i "/^\[greeter\]/a background=$LOGIN_BG" "$GREETER_CONF"
+
+
+
+# ===============================
+# cambiar el hostname
+# ===============================
+
+echo "Creating Hostname"
+
+echo "$HOSTNAME" | sudo tee /etc/hostname > /dev/null
+
+# Update /etc/hosts
+sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$HOSTNAME/" /etc/hosts
+
+echo "Hostname set to $HOSTNAME"
+
 
 
 # ===============================
