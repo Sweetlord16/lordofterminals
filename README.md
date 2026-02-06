@@ -1,7 +1,7 @@
 # 🧙‍♂️ Lord of Terminals 🧙‍♂️
 
 <p align="center">
-  <img src="/assets/gandalf.png" alt="Gandalf wallpaper">
+  <img src="/assets/gandalf.png" alt="Gandalf wallpaper" title="Gandalf" width="400">
 </p>
 
 
