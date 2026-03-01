@@ -77,7 +77,7 @@ sudo apt install -y \
 echo -e "${GREEN}[+] Paquetes instalados${END}"
 
 # ===============================
-# Wallpapers piolotes
+# Wallpapers piolas
 # ===============================
 echo -e "\n${BLUE}[*] Configurando wallpapers...${END}"
 
@@ -88,7 +88,6 @@ WALLPAPER_PATH="$WALL_DIR/$WALLPAPER_NAME"
 
 mkdir -p "$WALL_DIR"
 
-# Verificar si el origen existe antes de copiar
 if [ -d "$dir/wallpapers" ]; then
     cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 else
@@ -96,9 +95,8 @@ else
 fi
 
 for path in $(/usr/bin/xfconf-query -c xfce4-desktop -l | grep last-image); do
-
-    echo -e "${BLUE}[*] Aplicando fondo en: $prop${END}"
-    /usr/bin/xfconf-query -c xfce4-desktop -p "$path" -s " "$WALLPAPER_PATH""
+    echo -e "${BLUE}[*] Aplicando fondo en: $path${END}"
+    /usr/bin/xfconf-query -c xfce4-desktop -p "$path" -s "$WALLPAPER_PATH"
 done
 
 
