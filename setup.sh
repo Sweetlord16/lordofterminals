@@ -80,25 +80,29 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 # Wallpapers piolotes
 # ===============================
 echo -e "\n${BLUE}[*] Configurando wallpapers...${END}"
-sleep 2
 
 dir="$HOME/lordofterminals"
 WALL_DIR="$HOME/Wallpapers"
+WALLPAPER_NAME="The Oni.jpg"
+WALLPAPER_PATH="$WALL_DIR/$WALLPAPER_NAME"
 
 mkdir -p "$WALL_DIR"
-cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 
-# Crear / setear wallpaper (XFCE Kali)
-xfconf-query -c xfce4-desktop \
---create \
--p /backdrop/screen0/monitorVirtual1/workspace0/last-image \
--t string \
--s "$WALL_DIR/The Oni.jpg"
+# Verificar si el origen existe antes de copiar
+if [ -d "$dir/wallpapers" ]; then
+    cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
+else
+    echo -e "${RED}[!] No se encontró la carpeta de origen de wallpapers${END}"
+fi
+
+properties=$(xfconf-query -c xfce4-desktop -p /backdrop -l | grep "last-image")
+
+for prop in $properties; do
+    echo -e "${BLUE}[*] Aplicando fondo en: $prop${END}"
+    xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_PATH"
+done
 
 xfdesktop --reload
-
-echo -e "\n${GREEN}[+] Wallpapers configurados${END}"
-sleep 1.5
 
 # ===============================
 # Wallpaper login (LightDM)
