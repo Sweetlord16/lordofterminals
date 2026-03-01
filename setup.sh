@@ -118,10 +118,8 @@ if [ ! -f "$GREETER_CONF" ]; then
   echo "[greeter]" | sudo tee "$GREETER_CONF" > /dev/null
 fi
 
-# Eliminar cualquier background previo (Kali o custom)
 sudo sed -i '/^background\s*=.*/d' "$GREETER_CONF"
 
-# Añadir background correcto bajo [greeter]
 sudo sed -i "/^\[greeter\]/a background=$LOGIN_BG" "$GREETER_CONF"
 
 
@@ -134,12 +132,52 @@ echo "Creating Hostname"
 
 echo "$HOSTNAME" | sudo tee /etc/hostname > /dev/null
 
-# Update /etc/hosts
 sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$HOSTNAME/" /etc/hosts
 
 echo "Hostname set to $HOSTNAME"
 
+# ===============================
+# Establecer Usuario
+# ===============================
+# ===============================
+# Set User
+# ===============================
 
+echo -e "\n${BLUE}[?] Do you want to create a new user? (y/n) ${END}"
+read -r CREATE_USER
+CREATE_USER=${CREATE_USER,,}  # convert to lowercase
+
+if [[ "$CREATE_USER" == "y" || "$CREATE_USER" == "yes" ]]; then
+
+  echo -e "${BLUE}[?] Enter the new username:${END}"
+  read -r NEW_USER
+
+  if id "$NEW_USER" &>/dev/null; then
+    echo -e "${RED}[!] User '$NEW_USER' already exists${END}"
+  else
+    echo -e "${BLUE}[?] Enter password for $NEW_USER:${END}"
+    read -s NEW_PASS
+    echo
+    echo -e "${BLUE}[?] Confirm password:${END}"
+    read -s NEW_PASS_CONFIRM
+    echo
+
+    if [[ "$NEW_PASS" != "$NEW_PASS_CONFIRM" ]]; then
+      echo -e "${RED}[!] Passwords do not match${END}"
+      exit 1
+    fi
+
+    echo -e "${BLUE}[*] Creating user...${END}"
+
+    sudo useradd -m -s /bin/zsh "$NEW_USER"
+    echo "$NEW_USER:$NEW_PASS" | sudo chpasswd
+    sudo usermod -aG sudo "$NEW_USER"
+
+    echo -e "${GREEN}[+] User '$NEW_USER' successfully created and added to sudo group${END}"
+  fi
+else
+  echo -e "${BLUE}[*] Skipping user creation${END}"
+fi
 
 # ===============================
 # cambiar imagen del login (TO DO)
