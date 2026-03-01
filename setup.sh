@@ -95,14 +95,12 @@ else
     echo -e "${RED}[!] No se encontró la carpeta de origen de wallpapers${END}"
 fi
 
-properties=$(xfconf-query -c xfce4-desktop -p /backdrop -l | grep "last-image")
+for path in $(/usr/bin/xfconf-query -c xfce4-desktop -l | grep last-image); do
 
-for prop in $properties; do
     echo -e "${BLUE}[*] Aplicando fondo en: $prop${END}"
-    xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_PATH"
+    /usr/bin/xfconf-query -c xfce4-desktop -p "$path" -s " "$WALLPAPER_PATH""
 done
 
-xfdesktop --reload
 
 # ===============================
 # Wallpaper login (LightDM)
