@@ -81,23 +81,35 @@ echo -e "${GREEN}[+] Paquetes instalados${END}"
 # ===============================
 echo -e "\n${BLUE}[*] Configurando wallpapers...${END}"
 
-dir="$HOME/lordofterminals"
+# Usamos una ruta dinámica para que funcione desde donde sea que clones el repo
+dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WALL_DIR="$HOME/Wallpapers"
 WALLPAPER_NAME="The Oni.jpg"
 WALLPAPER_PATH="$WALL_DIR/$WALLPAPER_NAME"
 
 mkdir -p "$WALL_DIR"
 
+# Verificar si el origen existe antes de copiar
 if [ -d "$dir/wallpapers" ]; then
     cp -rv "$dir/wallpapers/"* "$WALL_DIR/"
 else
-    echo -e "${RED}[!] No se encontró la carpeta de origen de wallpapers${END}"
+    echo -e "${RED}[!] No se encontró la carpeta de origen de wallpapers en $dir/wallpapers${END}"
 fi
 
+# 1. Aplicamos a las rutas que YA existen (Monitores físicos detectados)
 for path in $(/usr/bin/xfconf-query -c xfce4-desktop -l | grep last-image); do
-    echo -e "${BLUE}[*] Aplicando fondo en: $path${END}"
+    echo -e "${BLUE}[*] Actualizando fondo existente en: $path${END}"
     /usr/bin/xfconf-query -c xfce4-desktop -p "$path" -s "$WALLPAPER_PATH"
 done
+
+# 2. Forzamos la ruta del monitor virtual (la que suele fallar en Kali)
+# Usamos -n (crear si no existe) y -t string (tipo de dato)
+VIRTUAL_PROP="/backdrop/screen0/monitorVirtual-1/workspace0/last-image"
+echo -e "${BLUE}[*] Forzando fondo en monitor virtual...${END}"
+/usr/bin/xfconf-query -c xfce4-desktop -p "$VIRTUAL_PROP" -n -t string -s "$WALLPAPER_PATH"
+
+# 3. Refrescar el escritorio para que los cambios sean instantáneos
+xfdesktop --reload
 
 
 # ===============================
