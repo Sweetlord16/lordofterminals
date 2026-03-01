@@ -122,25 +122,8 @@ sudo sed -i '/^background\s*=.*/d' "$GREETER_CONF"
 
 sudo sed -i "/^\[greeter\]/a background=$LOGIN_BG" "$GREETER_CONF"
 
-
-
-# ===============================
-# cambiar el hostname
-# ===============================
-
-echo "Creating Hostname"
-
-echo "$HOSTNAME" | sudo tee /etc/hostname > /dev/null
-
-sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$HOSTNAME/" /etc/hosts
-
-echo "Hostname set to $HOSTNAME"
-
 # ===============================
 # Establecer Usuario
-# ===============================
-# ===============================
-# Set User
 # ===============================
 
 echo -e "\n${BLUE}[?] Do you want to create a new user? (y/n) ${END}"
@@ -178,6 +161,20 @@ if [[ "$CREATE_USER" == "y" || "$CREATE_USER" == "yes" ]]; then
 else
   echo -e "${BLUE}[*] Skipping user creation${END}"
 fi
+
+
+# ===============================
+# cambiar el hostname
+# ===============================
+
+echo "Creating Hostname"
+
+echo "$HOSTNAME" | sudo tee /etc/hostname > /dev/null
+
+sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$HOSTNAME/" /etc/hosts
+
+echo "Hostname set to $HOSTNAME"
+
 
 # ===============================
 # cambiar imagen del login (TO DO)
